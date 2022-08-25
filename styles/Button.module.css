@@ -1,0 +1,21 @@
+.button {
+    background-color: #3b6dd8;
+    border-style: solid;
+    border-width: 3px;
+    border-color: rgb(0, 0, 0);
+    color: rgb(0, 0, 0);
+    padding: 15px 15px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-flex;
+    font-size: 24px;
+    font-weight: bolder;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+
+.button:hover{
+    background-color: rgb(133, 186, 255);
+    transform: scale(1.1);
+}
+  
