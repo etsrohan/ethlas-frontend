@@ -1,14 +1,29 @@
 import cardStyles from "../styles/Card.module.css";
 import Image from "next/image";
 import React, { useState, useEffect } from "react";
+import { ethers } from "ethers";
+import nft from "../contractJSON/TestorinoNFT.json";
+
+const infuraURL =
+  "https://rinkeby.infura.io/v3/5771fa5944764406a994e4800c31a3fa";
 
 const NFTCard = ({ hash, tokenId }) => {
   const [metadata, setMetadata] = useState([]);
+  const [owner, setOwner] = useState("");
   useEffect(() => {
     async function getMetadata(x, y) {
       const res = await fetch(`https://gateway.pinata.cloud/ipfs/${x}/${y}`);
       const data = await res.json();
       setMetadata(data);
+
+      const provider = new ethers.providers.JsonRpcProvider(infuraURL);
+      const contract = new ethers.Contract(nft.address, nft.abi, provider);
+      try {
+        const ownerAddress = await contract.ownerOf(tokenId);
+        setOwner(ownerAddress);
+      } catch (err) {
+        console.error(err);
+      }
     }
     getMetadata(hash, tokenId);
   }, [hash, tokenId]);
@@ -22,6 +37,11 @@ const NFTCard = ({ hash, tokenId }) => {
   return (
     <span className={cardStyles.card}>
       <h2>{`${tokenId}: ${metadata.name}`}</h2>
+      {owner ? (
+        <h2>{`Owner: 0x${owner.slice(2, 6)}...${owner.slice(38)}`}</h2>
+      ) : (
+        <h2>Owner: Unclaimed</h2>
+      )}
       {image_url !== undefined ? (
         <Image
           src={image_url}

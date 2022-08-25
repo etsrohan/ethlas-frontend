@@ -1,4 +1,7 @@
+.buttonFront,
 .button {
+    width: 200px;
+    margin-top: 10px;
     background-color: #3b6dd8;
     border-style: solid;
     border-width: 3px;
@@ -12,6 +15,11 @@
     font-weight: bolder;
     cursor: pointer;
     transition: 0.3s;
+  }
+
+  .buttonFront {
+    position: relative;
+    height: 1;
   }
 
 .button:hover{
