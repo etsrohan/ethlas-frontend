@@ -7,7 +7,8 @@ export default function Home() {
     <div>
       <Layout />
       <p className={styles.description}>
-        Welcome to the website for the Testorino NFT sale.
+        Welcome to the website for the Testorino NFT sale. You can buy an NFT
+        for just 0.01 ETH!
       </p>
     </div>
   );

@@ -4,20 +4,26 @@ import React, { useState, useEffect } from "react";
 import { ethers } from "ethers";
 import nft from "../contractJSON/TestorinoNFT.json";
 
+// Infura URL to inteact with Rinkeby
 const infuraURL =
   "https://rinkeby.infura.io/v3/5771fa5944764406a994e4800c31a3fa";
 
 const NFTCard = ({ hash, tokenId }) => {
+  // State variables that store metadata and owner of NFT
   const [metadata, setMetadata] = useState([]);
   const [owner, setOwner] = useState("");
+  // Fetch metadata from IPFS and get corresponding image
   useEffect(() => {
     async function getMetadata(x, y) {
+      // Fetch metadata
       const res = await fetch(`https://gateway.pinata.cloud/ipfs/${x}/${y}`);
       const data = await res.json();
       setMetadata(data);
 
+      // Get owner address of NFT
       const provider = new ethers.providers.JsonRpcProvider(infuraURL);
       const contract = new ethers.Contract(nft.address, nft.abi, provider);
+      // Unminted tokens will throw an error. Using this to avoid the alert.
       try {
         const ownerAddress = await contract.ownerOf(tokenId);
         setOwner(ownerAddress);
@@ -58,30 +64,3 @@ const NFTCard = ({ hash, tokenId }) => {
 };
 
 export default NFTCard;
-
-// // component used to archive the asset record locally in our database
-// const ArchiveResponseLocally = ({ id }) => {
-//   const [idc, setIdc] = useState("");
-//   const [ar, setAr] = useState({
-//     message: "waiting for a response from our fetch...",
-//   });
-//   useEffect(() => {
-//     console.log("useEffect was called");
-//     const archiveRes = async () => {
-//       const response = await fetch(
-//         `https://gateway.pinata.cloud/ipfs/QmNgUcJxb1onwt7jg3xXRBU6F4gDSPsDCeUrxgQ3podYFJ/1`
-//       );
-//       if (!response.ok) throw new Error(response.status);
-//       return response.json();
-//       //   setAr({ message: "response from fetch is complete", id: idc });
-//       //   return { message: "response from fetch is complete", id: idc };
-//     };
-//     // Update the document title using the browser API
-//     archiveRes(idc); // setAr(archiveRes(idc)); // - this does not work since archiveRes will return a promise, so need to call `setAr` from WITHIN the async function
-//   }, [idc]);
-
-//   console.log("idc:", idc, "id:", id);
-//   console.log("ar:", ar);
-//   if (idc !== id) setIdc(id);
-//   return <>{JSON.stringify(ar)}</>;
-// };

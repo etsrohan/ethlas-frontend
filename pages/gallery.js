@@ -4,9 +4,9 @@ import NFTCard from "../components/NFTCard";
 
 // Gallery page
 export default function Gallery() {
+  // IPFS hash of NFT Metadata
   const hash = "QmNgUcJxb1onwt7jg3xXRBU6F4gDSPsDCeUrxgQ3podYFJ";
   const idArray = [...Array(10)];
-  console.log(idArray);
   return (
     <>
       <Layout />
